@@ -1,5 +1,6 @@
-import sys, os
+import os
 
+# prepare temp udf module without outputSchema decorators
 tmpfile = "fuzzymatchingudftmp.py"
 if os.path.exists(tmpfile):
 	os.remove(tmpfile)
@@ -8,7 +9,6 @@ file = open('fuzzymatchingudf.py', 'r')
 for line in file:
 	line_str = str(line)
 	if not line_str.startswith("@"):
-		#print line,
 		f.write(line)
 f.close()
 
