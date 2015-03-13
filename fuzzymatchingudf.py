@@ -3,13 +3,11 @@ def return_ngrams(s,n):
 	outBag = []
 	if s is None: return None
 	input_list = list(s)
-	try:
-		for i in range(len(input_list)-(n-1)):
-			ngram_arr = input_list[i:i+n]
-			ngram_str = "".join(chr(l).lower() for l in ngram_arr)
-			outBag.append(ngram_str)
-	except: return None
-	else: return outBag
+	for i in range(len(input_list)-(n-1)):
+		ngram_arr = input_list[i:i+n]
+		ngram_str = "".join(l.lower() for l in ngram_arr)
+		outBag.append(ngram_str)
+	return outBag
 
 @outputSchema("q:bag{t:tuple(qgram:chararray)}") 
 def return_qgrams(bag_of_ngrams):
