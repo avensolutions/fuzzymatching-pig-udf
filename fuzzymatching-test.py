@@ -21,6 +21,6 @@ for name in test_data:
 	print 'Input Record : ' + name
 	ngrams = fuzzymatchingudftmp.return_ngrams(name,ngram_size)
 	print 'ngrams : ' + str(ngrams)
-	qgrams = fuzzymatchingudftmp.return_qgrams(ngrams)
+	qgrams = fuzzymatchingudftmp.return_qgrams(name,ngram_size)
 	print 'qgrams : ' + str(qgrams)
 	print '--------'

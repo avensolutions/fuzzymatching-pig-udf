@@ -5,12 +5,18 @@ def return_ngrams(s,n):
 	input_list = list(s)
 	for i in range(len(input_list)-(n-1)):
 		ngram_arr = input_list[i:i+n]
-		ngram_str = "".join(l.lower() for l in ngram_arr)
+		if (all(isinstance(item, int) for item in ngram_arr)):
+			ngram_str = "".join(chr(l).lower() for l in ngram_arr)
+		elif (all(isinstance(item, str) for item in ngram_arr)):
+			ngram_str = "".join(l.lower() for l in ngram_arr)
+		else:
+			return None
 		outBag.append(ngram_str)
 	return outBag
 
 @outputSchema("q:bag{t:tuple(qgram:chararray)}") 
-def return_qgrams(bag_of_ngrams):
+def return_qgrams(s,n):
+	bag_of_ngrams = return_ngrams(s,n)
 	outBag = []
 	if bag_of_ngrams is None: return None
 	try:
@@ -52,10 +58,15 @@ StartsWithUpper
 */
 REGISTER 'fuzzymatchingudf.py' USING jython as fuzzymatchingudf;
 raw_data = LOAD 'test.data' USING PigStorage();
---names_with_ngrams = FOREACH raw_data GENERATE $0, fuzzymatchingudf.return_ngrams($0,3);
---DUMP names_with_ngrams;
-names_with_qgrams = FOREACH raw_data GENERATE $0, fuzzymatchingudf.return_qgrams(fuzzymatchingudf.return_ngrams($0,3));
---DUMP names_with_qgrams;
+/*
+--test ngrams function
+names_with_ngrams = FOREACH raw_data GENERATE $0, fuzzymatchingudf.return_ngrams($0,3);
+DUMP names_with_ngrams;
+*/
+names_with_qgrams = FOREACH raw_data GENERATE $0, fuzzymatchingudf.return_qgrams($0,3);
+/*
+DUMP names_with_qgrams;
+*/
 flattened_qgrams = FOREACH names_with_qgrams GENERATE $0, FLATTEN($1);
 DUMP flattened_qgrams;
 '''
