@@ -15,10 +15,10 @@ Apache Pig UDF to return n-grams and q-grams used for approximate string matchin
 	flattened_qgrams = FOREACH names_with_qgrams GENERATE $0, FLATTEN($1);
 	DUMP flattened_qgrams;
 
-![fuzzymatching-udf-pig-dump screenshot](http://avensolutions.com/images/fuzzymatching-udf-pig-dump-screenshot.png)
+![fuzzymatching-udf-pig-dump screenshot](http://avensolutions-images.s3-website-us-east-1.amazonaws.com/fuzzymatching-udf-pig-dump-screenshot.png)
 	
 ## Python Test Usage
 
 	python fuzzymatching-test.py
 	
-![fuzzymatching-udf-python-test-program screenshot](http://avensolutions.com/images/fuzzymatching-udf-python-test-program.png)	
+![fuzzymatching-udf-python-test-program screenshot](http://avensolutions-images.s3-website-us-east-1.amazonaws.com/fuzzymatching-udf-python-test-program.png)	
