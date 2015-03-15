@@ -29,11 +29,9 @@ Can be used with Apache Pig, Spark (PySpark) and native Python
 	SparkContext available as sc.
 	>>>import fuzzymatchingudf
 	>>>recs = sc.textFile('test.data')
-	>>>ngrams = recs.flatMap(lambda x: fuzzymatchingudf.return_ngrams(x, 2))
-	>>>ngrams.collect()
-	['da', 'av', 'vi', 'id', 'cr', 'ra', 'ai', 'ig', 'je', 'ef', 'ff', 'fr', 're', 'ey', 'na', 'ad', 'de', 'en', 'ma', 'al', 'lc', 
-	'co', 'ol', 'lm', 'ma', 'ar', 'rk', 'st', 'tu', 'ua', 'ar', 'rt', 'up', 'pp', 'pe', 'er', 'rc', 'ca', 'as', 'se', 'mi', 
-	'ix', 'xe', 'ed', 'dc', 'ca', 'as', 'se', 'st', 'ta', 'ar', 'rt', 'ts', 'sw', 'wi', 'it', 'th', 'hu', 'up', 'pp', 'pe', 'er']
+	>>>ngrams = recs.map(lambda x: (x,fuzzymatchingudf.return_ngrams(x, 2)))
+	>>>ngrams.take(2)
+	[(u'david', ['da', 'av', 'vi', 'id']), (u'craig', ['cr', 'ra', 'ai', 'ig'])]
 	
 ## Native Python Usage
 
