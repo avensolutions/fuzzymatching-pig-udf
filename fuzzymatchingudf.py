@@ -1,3 +1,11 @@
+if __name__ != '__lib__':
+	def outputSchema(dont_care):
+		def wrapper(func):
+			def inner(*args, **kwargs):
+				return func(*args, **kwargs)
+			return inner
+		return wrapper
+
 @outputSchema("n:bag{t:tuple(ngram:chararray)}")
 def return_ngrams(s,n):
 	outBag = []
@@ -5,10 +13,15 @@ def return_ngrams(s,n):
 	input_list = list(s)
 	for i in range(len(input_list)-(n-1)):
 		ngram_arr = input_list[i:i+n]
+		# Pig returns array of character codes
 		if (all(isinstance(item, int) for item in ngram_arr)):
 			ngram_str = "".join(chr(l).lower() for l in ngram_arr)
+		# Python returns array of strings	
 		elif (all(isinstance(item, str) for item in ngram_arr)):
 			ngram_str = "".join(l.lower() for l in ngram_arr)
+		# PySpark returns array of unicode characters	
+		elif (all(isinstance(item, unicode) for item in ngram_arr)):
+			ngram_str = "".join(l.lower().encode('utf8') for l in ngram_arr)			
 		else:
 			return None
 		outBag.append(ngram_str)
